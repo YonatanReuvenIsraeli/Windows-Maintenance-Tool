@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 3.0.1
+echo Version: 3.0.2
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -102,7 +102,7 @@ goto "Start"
 :"ServicePack"
 echo.
 echo Cleaning WinSxs folder.
-Dism /online /Cleanup-Image / SPsuperseded
+Dism /Online /Cleanup-Image /SPSuperseded
 if not "%errorlevel%"=="0" goto "Error"
 echo WinSxS folder cleaned.
 goto "Start"
