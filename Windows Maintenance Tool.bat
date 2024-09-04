@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 3.0.0
+echo Version: 3.0.1
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -27,7 +27,7 @@ goto "Close"
 :"Start"
 echo.
 echo [1] Clear Windows Store cache.
-echo [2] CLean WinSxS folder.
+echo [2] Clean WinSxS folder.
 echo [3] Reset OpenSSH client keys for user %USERNAME%.
 echo [4] Close
 set Start=
