@@ -1,2 +1,2 @@
-# Windows Store Fixer v1.0.0
+# Windows Maintenance Tool v2.0.0
 Fixes Windows Store issues.
