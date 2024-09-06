@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.1
+echo Version: 4.1.2
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -86,6 +86,7 @@ if /i "%Installation%"=="W:" goto "SureInstallation"
 if /i "%Installation%"=="X:" goto "SureInstallation"
 if /i "%Installation%"=="Y:" goto "SureInstallation"
 if /i "%Installation%"=="Z:" goto "SureInstallation"
+echo Invalid syntax!
 goto "Installation"
 
 :"SureInstallation"
