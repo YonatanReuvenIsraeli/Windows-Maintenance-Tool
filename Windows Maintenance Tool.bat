@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.2
+echo Version: 4.1.3
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -92,18 +92,18 @@ goto "Installation"
 :"SureInstallation"
 echo.
 set SureInstallation=
-set /p SureInstallation="Are you sure "%Installation%" is the drive letter of your offline Winddows installation? (Yes/No) "
+set /p SureInstallation="Are you sure "%Installation%" is the drive letter of your offline Windows installation? (Yes/No) "
 if /i "%SureInstallation%"=="Yes" goto "CheckExistInstallation"
 if /i "%SureInstallation%"=="No" goto "Installation"
 echo Invalid syntax!
 goto "SureInstallation"
 
 :"CheckExistInstallation"
-if not exist "%Installation%" goto "NotExistInstallation"
+if not exist "%Installation%\Windows" goto "NotExistInstallation"
 goto "Offline"
 
 :"NotExistInstallation"
-echo "%Installation%" does not exist! Please try again.
+echo "%Installation%" does not exist or is not an offline Windows installation! Please try again.
 goto "Installation"
 
 :"Online"
