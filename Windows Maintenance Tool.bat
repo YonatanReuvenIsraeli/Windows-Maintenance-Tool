@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 3.0.3
+echo Version: 4.0.0
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -49,41 +49,58 @@ goto "Start"
 
 :"2"
 echo.
+set OnlineOffline=
+set /p OnlineOffline="Are you repairing an online or offline Windows installation? (Online/Offline) "
+if /i "%OnlineOffline%"=="Online" goto "Online"
+if /i "%OnlineOffline%"=="Offline" goto "OfflineInstallation"
+echo Invalid syntax
+goto "2"
+
+:"OfflineInstallation"
+echo.
+set OfflineInstallation=
+set /p OfflineInstallation="What is the full path to your offline Windows installation? "
+if exist "%OfflineInstallation%" goto "Offline"
+echo "%OfflineInstallation%" does not exist! Please try again.
+goto "OfflineInstallation"
+
+:"Online"
+echo.
 echo Getting WinSxS folder details.
 Dism /Online /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "Error"
-goto "Clean"
+goto "CleanOnline"
 
-:"Clean"
+:"CleanOnline"
 echo.
 set Clean=
 set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
 if /i "%Clean%"=="Yes" goto "Type"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
-goto "Clean"
+goto "CleanOnline"
 
-:"Type"
+:"TypeOnline"
 echo.
 echo [1] Component
 echo [2] Service Pack
 set Type=
 set /p Type="Which do you have? (1/2) "
-if /i "%Type%"=="1" goto "Component"
-if /i "%Type%"=="2" goto "ServicePack"
+if /i "%Type%"=="1" goto "ComponentOnline"
+if /i "%Type%"=="2" goto "ServicePackOnline"
 echo Invalid syntax!
-goto "Type"
+goto "TypeOnline"
 
-:"Component"
+:"ComponentOnline"
 echo.
 set Base=
 set /p Base="Would you like to reset base? (Yes/No) "
-if /i "%Base%"=="Yes" goto "Component1"
-if /i "%Base%"=="No" goto "Component2"
+if /i "%Base%"=="Yes" goto "Component1Online"
+if /i "%Base%"=="No" goto "Component2Online"
 echo Invalid syntax!
-goto "Component"
+goto "ComponentOnline"
 
-:"Component1"
+:"Component1Online"
 echo.
 echo Cleaning WinSxs folder.
 Dism /Online /Cleanup-Image /startcomponentcleanup /ResetBase
@@ -91,7 +108,7 @@ if not "%errorlevel%"=="0" goto "Error"
 echo WinSxS folder cleaned.
 goto "Start"
 
-:"Component2"
+:"Component2Online"
 echo.
 echo Cleaning WinSxs folder.
 Dism /Online /Cleanup-Image /startcomponentcleanup
@@ -99,10 +116,70 @@ if not "%errorlevel%"=="0" goto "Error"
 echo WinSxS folder cleaned.
 goto "Start"
 
-:"ServicePack"
+:"ServicePackOnline"
 echo.
 echo Cleaning WinSxs folder.
 Dism /Online /Cleanup-Image /SPSuperseded
+if not "%errorlevel%"=="0" goto "Error"
+echo WinSxS folder cleaned.
+goto "Start"
+
+:"Offline"
+echo.
+echo Getting WinSxS folder details.
+Dism /Online /Cleanup-Image /AnalyzeComponentStore
+if not "%errorlevel%"=="0" goto "Error"
+goto "CleanOffline"
+
+:"CleanOffline"
+echo.
+set Clean=
+set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
+if /i "%Clean%"=="Yes" goto "Type"
+if /i "%Clean%"=="No" goto "Start"
+echo Invalid syntax!
+goto "CleanOffline"
+
+:"TypeOffline"
+echo.
+echo [1] Component
+echo [2] Service Pack
+set Type=
+set /p Type="Which do you have? (1/2) "
+if /i "%Type%"=="1" goto "ComponentOffline"
+if /i "%Type%"=="2" goto "ServicePackOffline"
+echo Invalid syntax!
+goto "TypeOffline"
+
+:"ComponentOffline"
+echo.
+set Base=
+set /p Base="Would you like to reset base? (Yes/No) "
+if /i "%Base%"=="Yes" goto "Component1Offline"
+if /i "%Base%"=="No" goto "Component2Offline"
+echo Invalid syntax!
+goto "ComponentOffline"
+
+:"Component1Offline"
+echo.
+echo Cleaning WinSxs folder.
+Dism /Image:"%OfflineInstallation%" /Cleanup-Image /startcomponentcleanup /ResetBase
+if not "%errorlevel%"=="0" goto "Error"
+echo WinSxS folder cleaned.
+goto "Start"
+
+:"Component2Offline"
+echo.
+echo Cleaning WinSxs folder.
+Dism /Image:"%OfflineInstallation%" /Cleanup-Image /startcomponentcleanup
+if not "%errorlevel%"=="0" goto "Error"
+echo WinSxS folder cleaned.
+goto "Start"
+
+:"ServicePackOffline"
+echo.
+echo Cleaning WinSxs folder.
+Dism /Image:"%OfflineInstallation%" /Cleanup-Image /SPSuperseded
 if not "%errorlevel%"=="0" goto "Error"
 echo WinSxS folder cleaned.
 goto "Start"
