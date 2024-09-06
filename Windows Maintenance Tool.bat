@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.0.0
+echo Version: 4.1.0
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -52,17 +52,58 @@ echo.
 set OnlineOffline=
 set /p OnlineOffline="Are you repairing an online or offline Windows installation? (Online/Offline) "
 if /i "%OnlineOffline%"=="Online" goto "Online"
-if /i "%OnlineOffline%"=="Offline" goto "OfflineInstallation"
+if /i "%OnlineOffline%"=="Offline" goto "Installation"
 echo Invalid syntax
 goto "2"
 
-:"OfflineInstallation"
+:"Installation"
 echo.
-set OfflineInstallation=
-set /p OfflineInstallation="What is the full path to your offline Windows installation? "
-if exist "%OfflineInstallation%" goto "Offline"
-echo "%OfflineInstallation%" does not exist! Please try again.
-goto "OfflineInstallation"
+set Installation=
+set /p Installation="What is the drive letter to your offline Windows installation? (A:-Z:) "
+if /i "%Installation%"=="A:" goto "SureInstallation"
+if /i "%Installation%"=="B:" goto "SureInstallation"
+if /i "%Installation%"=="C:" goto "SureInstallation"
+if /i "%Installation%"=="D:" goto "SureInstallation"
+if /i "%Installation%"=="E:" goto "SureInstallation"
+if /i "%Installation%"=="F:" goto "SureInstallation"
+if /i "%Installation%"=="G:" goto "SureInstallation"
+if /i "%Installation%"=="H:" goto "SureInstallation"
+if /i "%Installation%"=="I:" goto "SureInstallation"
+if /i "%Installation%"=="J:" goto "SureInstallation"
+if /i "%Installation%"=="K:" goto "SureInstallation"
+if /i "%Installation%"=="L:" goto "SureInstallation"
+if /i "%Installation%"=="M:" goto "SureInstallation"
+if /i "%Installation%"=="N:" goto "SureInstallation"
+if /i "%Installation%"=="O:" goto "SureInstallation"
+if /i "%Installation%"=="P:" goto "SureInstallation"
+if /i "%Installation%"=="Q:" goto "SureInstallation"
+if /i "%Installation%"=="R:" goto "SureInstallation"
+if /i "%Installation%"=="S:" goto "SureInstallation"
+if /i "%Installation%"=="T:" goto "SureInstallation"
+if /i "%Installation%"=="U:" goto "SureInstallation"
+if /i "%Installation%"=="V:" goto "SureInstallation"
+if /i "%Installation%"=="W:" goto "SureInstallation"
+if /i "%Installation%"=="X:" goto "SureInstallation"
+if /i "%Installation%"=="Y:" goto "SureInstallation"
+if /i "%Installation%"=="Z:" goto "SureInstallation"
+goto "Installation"
+
+:"SureInstallation"
+echo.
+set SureInstallation=
+set /p SureInstallation="Are you sure "%DriveLetter%" is the drive letter of your offline Winddows installation? (Yes/No) "
+if /i "%SureInstallation%"=="Yes" goto "CheckExistInstallation"
+if /i "%SureInstallation%"=="No" goto "Installation"
+echo Invalid syntax!
+goto "SureInstallation"
+
+:"CheckExistInstallation"
+if not exist "%Installation%" goto "NotExistInstallation"
+goto "Offline"
+
+:"NotExistInstallation"
+echo "%Installation%" does not exist! Please try again.
+goto "Installation"
 
 :"Online"
 echo.
@@ -127,7 +168,7 @@ goto "Start"
 :"Offline"
 echo.
 echo Getting WinSxS folder details.
-Dism /Online /Cleanup-Image /AnalyzeComponentStore
+Dism /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "Error"
 goto "CleanOffline"
 
