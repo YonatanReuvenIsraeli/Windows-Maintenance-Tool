@@ -111,6 +111,7 @@ echo.
 echo Getting WinSxS folder details.
 Dism /Online /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "Error"
+echo Got WinSxS folder details.
 goto "CleanOnline"
 
 :"CleanOnline"
@@ -146,7 +147,7 @@ goto "ComponentOnline"
 echo.
 echo Cleaning WinSxs folder.
 DISM /Online /Cleanup-Image /startcomponentcleanup /ResetBase
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
@@ -154,7 +155,7 @@ goto "Start"
 echo.
 echo Cleaning WinSxs folder.
 DISM /Online /Cleanup-Image /startcomponentcleanup
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
@@ -162,7 +163,7 @@ goto "Start"
 echo.
 echo Cleaning WinSxs folder.
 Dism /Online /Cleanup-Image /SPSuperseded
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
@@ -170,7 +171,8 @@ goto "Start"
 echo.
 echo Getting WinSxS folder details.
 DISM /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
+echo Got WinSxS folder details.
 goto "CleanOffline"
 
 :"CleanOffline"
@@ -207,7 +209,7 @@ echo.
 echo Cleaning WinSxs folder.
 if not exist "%OfflineInstallation%\Windows\Logs\DISM" md "%InstallationRestore%\Windows\Logs\DISM"
 DISM /Image:"%OfflineInstallation%" /Cleanup-Image /startcomponentcleanup /ResetBase /LogPath:"%OfflineInstallation%\Windows\Logs\DISM\dism.log"
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
@@ -216,7 +218,7 @@ echo.
 echo Cleaning WinSxs folder.
 if not exist "%OfflineInstallation%\Windows\Logs\DISM" md "%InstallationRestore%\Windows\Logs\DISM"
 DISM /Image:"%OfflineInstallation%" /Cleanup-Image /startcomponentcleanup /LogPath:"%OfflineInstallation%\Windows\Logs\DISM\dism.log"
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
@@ -225,7 +227,7 @@ echo.
 echo Cleaning WinSxs folder.
 if not exist "%OfflineInstallation%\Windows\Logs\DISM" md "%InstallationRestore%\Windows\Logs\DISM"
 DISM /Image:"%OfflineInstallation%" /Cleanup-Image /SPSuperseded /LogPath:"%OfflineInstallation%\Windows\Logs\DISM\dism.log"
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Start"
 echo WinSxS folder cleaned.
 goto "Start"
 
