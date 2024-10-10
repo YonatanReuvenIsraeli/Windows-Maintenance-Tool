@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.9
+echo Version: 4.1.10
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -43,9 +43,14 @@ goto "Start"
 echo.
 echo Clearing Windows Store cache.
 wsreset
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Error1"
 echo Windows Store cache cleared.
 goto "Start"
+
+:"Error1"
+echo There has been an error! Press any key to again.
+pause > nul 2>&1
+goto "1"
 
 :"2"
 echo.
@@ -232,11 +237,20 @@ echo WinSxS folder cleaned on Windows installation "%Installation%".
 goto "Start"
 
 :"3"
+echo.
+set Sure=
+set /p Sure="Are you sure you want to reset OpenSSH client keys for user %USERNAME%? (Yes/No) "
+if /i "%Sure%"=="Yes" goto "Reset"
+if /i "%Sure%"=="No" goto "Start"
+echo Invalid syntax!
+goto "3"
+
+:"Reset"
 if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
 echo Reseting OpenSSH client keys for user %USERPROFILE%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error"
+if not "%errorlevel%"=="0" goto "Error2"
 echo OpenSSH client keys reset for user %USERPROFILE%.
 goto "Start"
 
@@ -245,9 +259,10 @@ echo.
 echo OpenSSH client keys for user %USERNAME% already in reset state.
 goto "Start"
 
-:"Error"
-echo There has been an error! You can try again.
-goto "Start"
+:"Error2"
+echo There has been an error! Press any key to again.
+pause > nul 2>&1
+goto "Reset"
 
 :"Close"
 endlocal
