@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.10
+echo Version: 4.1.11
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -27,7 +27,7 @@ goto "Close"
 :"Start"
 echo.
 echo [1] Clear Windows Store cache.
-echo [2] Clean WinSxS folder.
+echo [2] Clean Windows Component Store.
 echo [3] Reset OpenSSH client keys for user %USERNAME%.
 echo [4] Close
 set Start=
@@ -113,16 +113,16 @@ goto "Installation"
 
 :"Online"
 echo.
-echo Getting WinSxS folder details.
+echo Getting Windows Component Store details.
 Dism /Online /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "2"
-echo Got WinSxS folder details.
+echo Got Windows Component Store details.
 goto "CleanOnline"
 
 :"CleanOnline"
 echo.
 set Clean=
-set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
+set /p Clean="Do you want to clean Windows Component Store? (Yes/No) "
 if /i "%Clean%"=="Yes" goto "TypeOnline"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
@@ -150,40 +150,40 @@ goto "ComponentOnline"
 
 :"Component1Online"
 echo.
-echo Cleaning WinSxS folder.
+echo Cleaning Windows Component Store.
 DISM /Online /Cleanup-Image /startcomponentcleanup /ResetBase
 if not "%errorlevel%"=="0" goto "2"
-echo WinSxS folder cleaned.
+echo Windows Component Store cleaned.
 goto "Start"
 
 :"Component2Online"
 echo.
-echo Cleaning WinSxS folder.
+echo Cleaning Windows Component Store.
 DISM /Online /Cleanup-Image /startcomponentcleanup
 if not "%errorlevel%"=="0" goto "2"
-echo WinSxS folder cleaned.
+echo Windows Component Store cleaned.
 goto "Start"
 
 :"ServicePackOnline"
 echo.
-echo Cleaning WinSxS folder.
+echo Cleaning Windows Component Store.
 Dism /Online /Cleanup-Image /SPSuperseded
 if not "%errorlevel%"=="0" goto "2"
-echo WinSxS folder cleaned.
+echo Windows Component Store cleaned.
 goto "Start"
 
 :"Offline"
 echo.
-echo Getting WinSxS folder details on Windows installation "%Installation%".
+echo Getting Windows Component Store details on Windows installation "%Installation%".
 DISM /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "Installation"
-echo Got WinSxS folder details on Windows installation "%Installation%".
+echo Got Windows Component Store details on Windows installation "%Installation%".
 goto "CleanOffline"
 
 :"CleanOffline"
 echo.
 set Clean=
-set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
+set /p Clean="Do you want to  clean Windows Component Store? (Yes/No) "
 if /i "%Clean%"=="Yes" goto "TypeOffline"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
@@ -211,29 +211,29 @@ goto "ComponentOffline"
 
 :"Component1Offline"
 echo.
-echo Cleaning WinSxS folder on Windows installation "%Installation%".
+echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
 DISM /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /ResetBase /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
-echo WinSxS folder cleaned on Windows installation "%Installation%".
+echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
 
 :"Component2Offline"
 echo.
-echo Cleaning WinSxS folder on Windows installation "%Installation%".
+echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
 DISM /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
-echo WinSxS folder cleaned on Windows installation "%Installation%".
+echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
 
 :"ServicePackOffline"
 echo.
-echo Cleaning WinSxS folder on Windows installation "%Installation%".
+echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
 DISM /Image:"%Installation%" /Cleanup-Image /SPSuperseded /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
-echo WinSxS folder cleaned on Windows installation "%Installation%".
+echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
 
 :"3"
