@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.8
+echo Version: 4.1.9
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -118,7 +118,7 @@ goto "CleanOnline"
 echo.
 set Clean=
 set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
-if /i "%Clean%"=="Yes" goto "Type"
+if /i "%Clean%"=="Yes" goto "TypeOnline"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
 goto "CleanOnline"
@@ -179,7 +179,7 @@ goto "CleanOffline"
 echo.
 set Clean=
 set /p Clean="Do you want to  clean WinSxS folder? (Yes/No) "
-if /i "%Clean%"=="Yes" goto "Type"
+if /i "%Clean%"=="Yes" goto "TypeOffline"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
 goto "CleanOffline"
