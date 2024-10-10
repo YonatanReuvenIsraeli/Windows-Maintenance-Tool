@@ -1,6 +1,6 @@
 # Windows Maintenance Tool v4.1.10
-Perform various miscellaneous tasks.
+Perform various Windows miscellaneous tasks.
 
 Clear Windows Store cache.  
-Clean WinSxS folder.  
+Clean Windows Component Store.  
 Reset OpenSSH client keys for current user.
