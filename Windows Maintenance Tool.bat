@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.11
+echo Version: 4.1.12
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -183,7 +183,7 @@ goto "CleanOffline"
 :"CleanOffline"
 echo.
 set Clean=
-set /p Clean="Do you want to  clean Windows Component Store? (Yes/No) "
+set /p Clean="Do you want to clean Windows Component Store? (Yes/No) "
 if /i "%Clean%"=="Yes" goto "TypeOffline"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
