@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.12
+echo Version: 4.1.14
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -175,7 +175,8 @@ goto "Start"
 :"Offline"
 echo.
 echo Getting Windows Component Store details on Windows installation "%Installation%".
-DISM /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
+DISM /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Got Windows Component Store details on Windows installation "%Installation%".
 goto "CleanOffline"
