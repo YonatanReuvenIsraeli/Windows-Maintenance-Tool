@@ -2,14 +2,14 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.15
+echo Version: 4.1.16
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
-echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli 
-net session > nul 2>&1
+echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli
+"%windir%\System32\net.exe" session > nul 2>&1
 if not "%errorlevel%"=="0" goto "NotAdministrator"
-net user > nul 2>&1
+"%windir%\System32\net.exe" user > nul 2>&1
 if not "%errorlevel%"=="0" goto "InWindowsRecoveryEnvironment"
 goto "Start"
 
@@ -30,7 +30,7 @@ echo.
 echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Reset OpenSSH client keys for user %USERNAME%.
-echo [4] Close
+echo [4] Close.
 set Start=
 set /p Start="What do you want to do? (1-4) "
 if /i "%Start%"=="1" goto "1"
@@ -43,7 +43,7 @@ goto "Start"
 :"1"
 echo.
 echo Clearing Windows Store cache.
-wsreset
+"%windir%\System32\WSReset.exe"
 if not "%errorlevel%"=="0" goto "Error1"
 echo Windows Store cache cleared.
 goto "Start"
@@ -115,7 +115,7 @@ goto "Installation"
 :"Online"
 echo.
 echo Getting Windows Component Store details.
-Dism /Online /Cleanup-Image /AnalyzeComponentStore
+"%windir%\System32\Dism.exe" /Online /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "2"
 echo Got Windows Component Store details.
 goto "CleanOnline"
@@ -152,7 +152,7 @@ goto "ComponentOnline"
 :"Component1Online"
 echo.
 echo Cleaning Windows Component Store.
-DISM /Online /Cleanup-Image /startcomponentcleanup /ResetBase
+"%windir%\System32\Dism.exe" /Online /Cleanup-Image /startcomponentcleanup /ResetBase
 if not "%errorlevel%"=="0" goto "2"
 echo Windows Component Store cleaned.
 goto "Start"
@@ -160,7 +160,7 @@ goto "Start"
 :"Component2Online"
 echo.
 echo Cleaning Windows Component Store.
-DISM /Online /Cleanup-Image /startcomponentcleanup
+"%windir%\System32\Dism.exe" /Online /Cleanup-Image /startcomponentcleanup
 if not "%errorlevel%"=="0" goto "2"
 echo Windows Component Store cleaned.
 goto "Start"
@@ -168,7 +168,7 @@ goto "Start"
 :"ServicePackOnline"
 echo.
 echo Cleaning Windows Component Store.
-Dism /Online /Cleanup-Image /SPSuperseded
+"%windir%\System32\Dism.exe" /Online /Cleanup-Image /SPSuperseded
 if not "%errorlevel%"=="0" goto "2"
 echo Windows Component Store cleaned.
 goto "Start"
@@ -177,7 +177,7 @@ goto "Start"
 echo.
 echo Getting Windows Component Store details on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
-DISM /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
+"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Got Windows Component Store details on Windows installation "%Installation%".
 goto "CleanOffline"
@@ -215,7 +215,7 @@ goto "ComponentOffline"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
-DISM /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /ResetBase /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
+"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /ResetBase /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
@@ -224,7 +224,7 @@ goto "Start"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
-DISM /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
+"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
@@ -233,7 +233,7 @@ goto "Start"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
 if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
-DISM /Image:"%Installation%" /Cleanup-Image /SPSuperseded /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
+"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /SPSuperseded /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
