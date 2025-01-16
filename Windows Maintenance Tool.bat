@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.21
+echo Version: 4.1.22
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -31,6 +31,7 @@ echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Reset OpenSSH client keys for user %USERNAME%.
 echo [4] Close.
+echo.
 set Start=
 set /p Start="What do you want to do? (1-4) "
 if /i "%Start%"=="1" goto "1"
