@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.22
+echo Version: 4.1.23
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -141,8 +141,8 @@ goto "Clean"
 
 :"Type"
 echo.
-echo [1] Component
-echo [2] Service Pack
+echo [1] Component.
+echo [2] Service Pack.
 echo.
 set Type=
 set /p Type="Which do you have? (1-2) "
