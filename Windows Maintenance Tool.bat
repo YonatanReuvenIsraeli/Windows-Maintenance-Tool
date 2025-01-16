@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.17
+echo Version: 4.1.18
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -176,7 +176,7 @@ goto "Start"
 :"Offline"
 echo.
 echo Getting Windows Component Store details on Windows installation "%Installation%".
-if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
 "%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Got Windows Component Store details on Windows installation "%Installation%".
@@ -214,7 +214,7 @@ goto "ComponentOffline"
 :"Component1Offline"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
-if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
 "%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /ResetBase /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
@@ -223,7 +223,7 @@ goto "Start"
 :"Component2Offline"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
-if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
 "%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /startcomponentcleanup /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
@@ -232,7 +232,7 @@ goto "Start"
 :"ServicePackOffline"
 echo.
 echo Cleaning Windows Component Store on Windows installation "%Installation%".
-if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM"
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
 "%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /SPSuperseded /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
 if not "%errorlevel%"=="0" goto "Installation"
 echo Windows Component Store cleaned on Windows installation "%Installation%".
