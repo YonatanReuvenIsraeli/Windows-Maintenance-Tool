@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.18
+echo Version: 4.1.19
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -134,7 +134,7 @@ echo.
 echo [1] Component
 echo [2] Service Pack
 set Type=
-set /p Type="Which do you have? (1/2) "
+set /p Type="Which do you have? (1-2) "
 if /i "%Type%"=="1" goto "ComponentOnline"
 if /i "%Type%"=="2" goto "ServicePackOnline"
 echo Invalid syntax!
@@ -196,7 +196,7 @@ echo.
 echo [1] Component
 echo [2] Service Pack
 set Type=
-set /p Type="Which do you have? (1/2) "
+set /p Type="Which do you have? (1-2) "
 if /i "%Type%"=="1" goto "ComponentOffline"
 if /i "%Type%"=="2" goto "ServicePackOffline"
 echo Invalid syntax!
