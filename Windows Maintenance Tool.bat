@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.19
+echo Version: 4.1.20
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -118,36 +118,48 @@ echo Getting Windows Component Store details.
 "%windir%\System32\Dism.exe" /Online /Cleanup-Image /AnalyzeComponentStore
 if not "%errorlevel%"=="0" goto "2"
 echo Got Windows Component Store details.
-goto "CleanOnline"
+goto "Clean"
 
-:"CleanOnline"
+:"Offline"
+echo.
+echo Getting Windows Component Store details on Windows installation "%Installation%".
+if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
+"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
+if not "%errorlevel%"=="0" goto "Installation"
+echo Got Windows Component Store details on Windows installation "%Installation%".
+goto "Clean"
+
+:"Clean"
 echo.
 set Clean=
 set /p Clean="Do you want to clean Windows Component Store? (Yes/No) "
-if /i "%Clean%"=="Yes" goto "TypeOnline"
+if /i "%Clean%"=="Yes" goto "Type"
 if /i "%Clean%"=="No" goto "Start"
 echo Invalid syntax!
-goto "CleanOnline"
+goto "Clean"
 
-:"TypeOnline"
+:"Type"
 echo.
 echo [1] Component
 echo [2] Service Pack
 set Type=
 set /p Type="Which do you have? (1-2) "
-if /i "%Type%"=="1" goto "ComponentOnline"
-if /i "%Type%"=="2" goto "ServicePackOnline"
+if /i "%Type%"=="1" goto "Component"
+if /i "%OnlineOffline%"=="Online" if /i "%Type%"=="2" goto "ServicePackOnline"
+if /i "%OnlineOffline%"=="Offline" if /i "%Type%"=="2" goto "ServicePackOffline"
 echo Invalid syntax!
-goto "TypeOnline"
+goto "Type"
 
-:"ComponentOnline"
+:"Component"
 echo.
 set Base=
 set /p Base="Would you like to reset base? (Yes/No) "
-if /i "%Base%"=="Yes" goto "Component1Online"
-if /i "%Base%"=="No" goto "Component2Online"
+if /i "%OnlineOffline%"=="Online" if /i "%Base%"=="Yes" goto "Component1Online"
+if /i "%OnlineOffline%"=="Online" if /i "%Base%"=="No" goto "Component2Online"
+if /i "%OnlineOffline%"=="Offline" if /i "%Base%"=="Yes" goto "Component1Offline"
+if /i "%OnlineOffline%"=="Offline" if /i "%Base%"=="No" goto "Component2Offline"
 echo Invalid syntax!
-goto "ComponentOnline"
+goto "Component"
 
 :"Component1Online"
 echo.
@@ -172,44 +184,6 @@ echo Cleaning Windows Component Store.
 if not "%errorlevel%"=="0" goto "2"
 echo Windows Component Store cleaned.
 goto "Start"
-
-:"Offline"
-echo.
-echo Getting Windows Component Store details on Windows installation "%Installation%".
-if not exist "%Installation%\Windows\Logs\DISM" md "%Installation%\Windows\Logs\DISM" > nul 2>&1
-"%windir%\System32\Dism.exe" /Image:"%Installation%" /Cleanup-Image /AnalyzeComponentStore /LogPath:"%Installation%\Windows\Logs\DISM\dism.log"
-if not "%errorlevel%"=="0" goto "Installation"
-echo Got Windows Component Store details on Windows installation "%Installation%".
-goto "CleanOffline"
-
-:"CleanOffline"
-echo.
-set Clean=
-set /p Clean="Do you want to clean Windows Component Store? (Yes/No) "
-if /i "%Clean%"=="Yes" goto "TypeOffline"
-if /i "%Clean%"=="No" goto "Start"
-echo Invalid syntax!
-goto "CleanOffline"
-
-:"TypeOffline"
-echo.
-echo [1] Component
-echo [2] Service Pack
-set Type=
-set /p Type="Which do you have? (1-2) "
-if /i "%Type%"=="1" goto "ComponentOffline"
-if /i "%Type%"=="2" goto "ServicePackOffline"
-echo Invalid syntax!
-goto "TypeOffline"
-
-:"ComponentOffline"
-echo.
-set Base=
-set /p Base="Would you like to reset base? (Yes/No) "
-if /i "%Base%"=="Yes" goto "Component1Offline"
-if /i "%Base%"=="No" goto "Component2Offline"
-echo Invalid syntax!
-goto "ComponentOffline"
 
 :"Component1Offline"
 echo.
