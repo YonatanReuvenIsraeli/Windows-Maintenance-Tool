@@ -2,7 +2,7 @@
 setlocal
 title Windows Maintenance Tool
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.23
+echo Version: 4.1.24
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -226,7 +226,7 @@ goto "3"
 :"Reset"
 if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
-echo Reseting OpenSSH client keys for user %USERPROFILE%.
+echo Resetting OpenSSH client keys for user %USERPROFILE%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error2"
 echo OpenSSH client keys reset for user %USERPROFILE%.
