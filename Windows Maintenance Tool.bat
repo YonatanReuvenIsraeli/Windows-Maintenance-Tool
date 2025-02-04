@@ -1,8 +1,8 @@
 @echo off
-setlocal
 title Windows Maintenance Tool
+setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.24
+echo Version: 4.1.25
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
