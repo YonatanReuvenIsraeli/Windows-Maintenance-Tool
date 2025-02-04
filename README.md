@@ -1,4 +1,4 @@
-# Windows Maintenance Tool v4.1.24
+# Windows Maintenance Tool v4.1.25
 Perform various Windows miscellaneous tasks.
 
 Clear Windows Store cache.  
