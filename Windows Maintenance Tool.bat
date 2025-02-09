@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 4.1.25
+echo Version: 5.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -30,14 +30,16 @@ echo.
 echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Reset OpenSSH client keys for user %USERNAME%.
-echo [4] Close.
+echo [4] Clear Run history for user %USERNAME%.
+echo [5] Close.
 echo.
 set Start=
-set /p Start="What do you want to do? (1-4) "
+set /p Start="What do you want to do? (1-5) "
 if /i "%Start%"=="1" goto "1"
 if /i "%Start%"=="2" goto "2"
 if /i "%Start%"=="3" goto "3"
-if /i "%Start%"=="4" goto "Close"
+if /i "%Start%"=="4" goto "4"
+if /i "%Start%"=="5" goto "Close"
 echo Invalid syntax!
 goto "Start"
 
@@ -241,6 +243,28 @@ goto "Start"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Reset"
+
+:"4"
+echo.
+set Sure=
+set /p Sure="Are you sure you want to clear Run history for user %USERNAME%? (Yes/No) "
+if /i "%Sure%"=="Yes" goto "Clear"
+if /i "%Sure%"=="No" goto "Start"
+echo Invalid syntax!
+goto "4"
+
+:"Clear"
+echo.
+echo Clearing Run history for user %USERPROFILE%.
+"%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
+if not "%errorlevel%"=="0" goto "Error3"
+echo Run history cleared for user %USERPROFILE%.
+goto "Start"
+
+:"Error3"
+echo There has been an error! Press any key to again.
+pause > nul 2>&1
+goto "Clear"
 
 :"Close"
 endlocal
