@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 5.0.0
+echo Version: 5.0.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -228,10 +228,10 @@ goto "3"
 :"Reset"
 if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
-echo Resetting OpenSSH client keys for user %USERPROFILE%.
+echo Resetting OpenSSH client keys for user %USERNAME%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error2"
-echo OpenSSH client keys reset for user %USERPROFILE%.
+echo OpenSSH client keys reset for user %USERNAME%.
 goto "Start"
 
 :"NotExist"
@@ -255,10 +255,10 @@ goto "4"
 
 :"Clear"
 echo.
-echo Clearing Run history for user %USERPROFILE%.
+echo Clearing Run history for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error3"
-echo Run history cleared for user %USERPROFILE%.
+echo Run history cleared for user %USERNAME%.
 goto "Start"
 
 :"Error3"
