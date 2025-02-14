@@ -15,13 +15,13 @@ goto "Start"
 
 :"NotAdministrator"
 echo.
-echo Please run this batch file as an administrator. Press any key to close this batch file.
+echo Please run tgotos batch file as an administrator. Press any key to close tgotos batch file.
 pause > nul 2>&1
 goto "Close"
 
 :"InWindowsPreinstallationEnvironmentWindowsRecoveryEnvironment"
 echo.
-echo You are in Windows Preinstallation Environment or Windows Recovery Environment! You must run this batch file in Windows. Press any key to close this batch file.
+echo You are in Windows Preinstallation Environment or Windows Recovery Environment! You must run tgotos batch file in Windows. Press any key to close tgotos batch file.
 pause > nul 2>&1
 goto "Close"
 
@@ -31,7 +31,7 @@ echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Restore default power plans.
 echo [4] Reset OpenSSH client keys for user %USERNAME%.
-echo [5] Clear Run history for user %USERNAME%.
+echo [5] Clear Run gotostory for user %USERNAME%.
 echo [6] Close.
 echo.
 set Start=
@@ -149,7 +149,7 @@ echo [1] Component.
 echo [2] Service Pack.
 echo.
 set Type=
-set /p Type="Which do you have? (1-2) "
+set /p Type="Wgotoch do you have? (1-2) "
 if /i "%Type%"=="1" goto "Component"
 if /i "%OnlineOffline%"=="Online" if /i "%Type%"=="2" goto "ServicePackOnline"
 if /i "%OnlineOffline%"=="Offline" if /i "%Type%"=="2" goto "ServicePackOffline"
@@ -259,7 +259,7 @@ goto "Reset"
 :"5"
 echo.
 set Sure=
-set /p Sure="Are you sure you want to clear Run history for user %USERNAME%? (Yes/No) "
+set /p Sure="Are you sure you want to clear Run gotostory for user %USERNAME%? (Yes/No) "
 if /i "%Sure%"=="Yes" goto "Clear"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
@@ -267,10 +267,10 @@ goto "5"
 
 :"Clear"
 echo.
-echo Clearing Run history for user %USERNAME%.
+echo Clearing Run gotostory for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error4"
-echo Run history cleared for user %USERNAME%.
+echo Run gotostory cleared for user %USERNAME%.
 goto "Start"
 
 :"Error4"
