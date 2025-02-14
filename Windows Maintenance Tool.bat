@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 5.0.1
+echo Version: 6.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -29,17 +29,19 @@ goto "Close"
 echo.
 echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
-echo [3] Reset OpenSSH client keys for user %USERNAME%.
-echo [4] Clear Run history for user %USERNAME%.
-echo [5] Close.
+echo [3] Restore default power plans.
+echo [4] Reset OpenSSH client keys for user %USERNAME%.
+echo [5] Clear Run history for user %USERNAME%.
+echo [6] Close.
 echo.
 set Start=
-set /p Start="What do you want to do? (1-5) "
+set /p Start="What do you want to do? (1-6) "
 if /i "%Start%"=="1" goto "1"
 if /i "%Start%"=="2" goto "2"
 if /i "%Start%"=="3" goto "3"
 if /i "%Start%"=="4" goto "4"
-if /i "%Start%"=="5" goto "Close"
+if /i "%Start%"=="5" goto "5"
+if /i "%Start%"=="6" goto "Close"
 echo Invalid syntax!
 goto "Start"
 
@@ -217,20 +219,30 @@ echo Windows Component Store cleaned on Windows installation "%Installation%".
 goto "Start"
 
 :"3"
+"%windir%\System32\powercfg.exe" /restoredefaultschemes
+if not "%errorlevel%"=="0" goto "Error2"
+goto "Start"
+
+:"Error2"
+echo There has been an error! Press any key to again.
+pause > nul 2>&1
+goto "3"
+
+:"4"
 echo.
 set Sure=
 set /p Sure="Are you sure you want to reset OpenSSH client keys for user %USERNAME%? (Yes/No) "
 if /i "%Sure%"=="Yes" goto "Reset"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
-goto "3"
+goto "4"
 
 :"Reset"
 if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
 echo Resetting OpenSSH client keys for user %USERNAME%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error2"
+if not "%errorlevel%"=="0" goto "Error3"
 echo OpenSSH client keys reset for user %USERNAME%.
 goto "Start"
 
@@ -239,29 +251,29 @@ echo.
 echo OpenSSH client keys for user %USERNAME% already in reset state.
 goto "Start"
 
-:"Error2"
+:"Error3"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Reset"
 
-:"4"
+:"5"
 echo.
 set Sure=
 set /p Sure="Are you sure you want to clear Run history for user %USERNAME%? (Yes/No) "
 if /i "%Sure%"=="Yes" goto "Clear"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
-goto "4"
+goto "5"
 
 :"Clear"
 echo.
 echo Clearing Run history for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error3"
+if not "%errorlevel%"=="0" goto "Error4"
 echo Run history cleared for user %USERNAME%.
 goto "Start"
 
-:"Error3"
+:"Error4"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Clear"
