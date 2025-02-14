@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 6.0.2
+echo Version: 6.0.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -121,9 +121,14 @@ goto "Installation"
 echo.
 echo Getting Windows Component Store details.
 "%windir%\System32\Dism.exe" /Online /Cleanup-Image /AnalyzeComponentStore
-if not "%errorlevel%"=="0" goto "2"
+if not "%errorlevel%"=="0" goto "Error2"
 echo Got Windows Component Store details.
 goto "Clean"
+
+:"Error2"
+echo There has been an error! Press any key to try again.
+pause > nul 2>&1
+goto "Online"
 
 :"Offline"
 echo.
@@ -171,7 +176,7 @@ goto "Component"
 echo.
 echo Cleaning Windows Component Store.
 "%windir%\System32\Dism.exe" /Online /Cleanup-Image /startcomponentcleanup /ResetBase
-if not "%errorlevel%"=="0" goto "2"
+if not "%errorlevel%"=="0" goto "Online"
 echo Windows Component Store cleaned.
 goto "Start"
 
@@ -179,7 +184,7 @@ goto "Start"
 echo.
 echo Cleaning Windows Component Store.
 "%windir%\System32\Dism.exe" /Online /Cleanup-Image /startcomponentcleanup
-if not "%errorlevel%"=="0" goto "2"
+if not "%errorlevel%"=="0" goto "Online"
 echo Windows Component Store cleaned.
 goto "Start"
 
@@ -187,7 +192,7 @@ goto "Start"
 echo.
 echo Cleaning Windows Component Store.
 "%windir%\System32\Dism.exe" /Online /Cleanup-Image /SPSuperseded
-if not "%errorlevel%"=="0" goto "2"
+if not "%errorlevel%"=="0" goto "Online"
 echo Windows Component Store cleaned.
 goto "Start"
 
@@ -220,10 +225,10 @@ goto "Start"
 
 :"3"
 "%windir%\System32\powercfg.exe" /restoredefaultschemes
-if not "%errorlevel%"=="0" goto "Error2"
+if not "%errorlevel%"=="0" goto "Error3"
 goto "Start"
 
-:"Error2"
+:"Error3"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "3"
@@ -242,7 +247,7 @@ if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
 echo Resetting OpenSSH client keys for user %USERNAME%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error3"
+if not "%errorlevel%"=="0" goto "Error4"
 echo OpenSSH client keys reset for user %USERNAME%.
 goto "Start"
 
@@ -251,7 +256,7 @@ echo.
 echo OpenSSH client keys for user %USERNAME% already in reset state.
 goto "Start"
 
-:"Error3"
+:"Error4"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Reset"
@@ -269,11 +274,11 @@ goto "5"
 echo.
 echo Clearing Run gotostory for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error4"
+if not "%errorlevel%"=="0" goto "Error5"
 echo Run gotostory cleared for user %USERNAME%.
 goto "Start"
 
-:"Error4"
+:"Error5"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Clear"
