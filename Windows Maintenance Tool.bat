@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 6.0.0
+echo Version: 6.0.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -64,7 +64,7 @@ set OnlineOffline=
 set /p OnlineOffline="Are you repairing an online or offline Windows installation? (Online/Offline) "
 if /i "%OnlineOffline%"=="Online" goto "Online"
 if /i "%OnlineOffline%"=="Offline" goto "Installation"
-echo Invalid syntax
+echo Invalid syntax!
 goto "2"
 
 :"Installation"
