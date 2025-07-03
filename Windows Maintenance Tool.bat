@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 6.0.3
+echo Version: 6.0.4
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -31,7 +31,7 @@ echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Restore default power plans.
 echo [4] Reset OpenSSH client keys for user %USERNAME%.
-echo [5] Clear Run gotostory for user %USERNAME%.
+echo [5] Clear Run history for user %USERNAME%.
 echo [6] Close.
 echo.
 set Start=
@@ -264,7 +264,7 @@ goto "Reset"
 :"5"
 echo.
 set Sure=
-set /p Sure="Are you sure you want to clear Run gotostory for user %USERNAME%? (Yes/No) "
+set /p Sure="Are you sure you want to clear Run history for user %USERNAME%? (Yes/No) "
 if /i "%Sure%"=="Yes" goto "Clear"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
@@ -272,10 +272,10 @@ goto "5"
 
 :"Clear"
 echo.
-echo Clearing Run gotostory for user %USERNAME%.
+echo Clearing Run history for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error5"
-echo Run gotostory cleared for user %USERNAME%.
+echo Run history cleared for user %USERNAME%.
 goto "Start"
 
 :"Error5"
