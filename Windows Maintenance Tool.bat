@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 6.0.4
+echo Version: 6.0.5
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -110,11 +110,21 @@ echo Invalid syntax!
 goto "SureInstallation"
 
 :"CheckExistInstallation"
-if not exist "%Installation%\Windows" goto "NotExistInstallation"
+if not exist "%Installation%" goto "InstallationNotExist"
+if /i "%Installation%"=="%SystemDrive%" goto "InstallationIsOnline"
+if not exist "%Installation%\Windows" goto "InstallationNotWindows"
 goto "Offline"
 
-:"NotExistInstallation"
-echo "%Installation%" does not exist or is not an offline Windows installation! Please try again.
+:"InstallationNotExist"
+echo "%Installation%" does not exist!
+goto "Installation"
+
+:"InstallationIsOnline"
+echo "%Installation%" is an online Windows installation!
+goto "2"
+
+:"InstallationNotWindows"
+echo "%Installation%" is not an offline Windows installation!
 goto "Installation"
 
 :"Online"
