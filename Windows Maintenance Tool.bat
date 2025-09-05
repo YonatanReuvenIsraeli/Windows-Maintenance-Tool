@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 6.0.5
+echo Version: 7.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -30,18 +30,20 @@ echo.
 echo [1] Clear Windows Store cache.
 echo [2] Clean Windows Component Store.
 echo [3] Restore default power plans.
-echo [4] Reset OpenSSH client keys for user %USERNAME%.
-echo [5] Clear Run history for user %USERNAME%.
-echo [6] Close.
+echo [4] Clear auto-mount points.
+echo [5] Reset OpenSSH client keys for user %USERNAME%.
+echo [6] Clear Run history for user %USERNAME%.
+echo [7] Close.
 echo.
 set Start=
-set /p Start="What do you want to do? (1-6) "
+set /p Start="What do you want to do? (1-7) "
 if /i "%Start%"=="1" goto "1"
 if /i "%Start%"=="2" goto "2"
 if /i "%Start%"=="3" goto "3"
 if /i "%Start%"=="4" goto "4"
 if /i "%Start%"=="5" goto "5"
-if /i "%Start%"=="6" goto "Close"
+if /i "%Start%"=="6" goto "6"
+if /i "%Start%"=="7" goto "Close"
 echo Invalid syntax!
 goto "Start"
 
@@ -246,18 +248,62 @@ goto "3"
 :"4"
 echo.
 set Sure=
+set /p Sure="Are you sure you want to clear your auto-mount points? (Yes/No) "
+if /i "%Sure%"=="Yes" goto "DiskPartSet"
+if /i "%Sure%"=="No" goto "Start"
+echo Invalid syntax!
+goto "4"
+
+:"DiskPartSet"
+set DiskPart=
+goto "ClearAutoMount"
+
+:"ClearAutoMount"
+if exist "diskpart.txt" goto "DiskPartExist"
+echo.
+echo Clearing auto-mount points.
+(echo automount scrub) > "diskpart.txt"
+(echo exit) >> "diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
+if not "%errorlevel%"=="0" goto "Error4"
+del "diskpart.txt" /f /q > nul 2>&1
+echo Cleared auto-mount points.
+if /i "%DiskPart%"=="True" goto "DiskPartDone"
+goto "Start"
+
+:"DiskPartExist"
+set DiskPart=True
+echo.
+echo Please temporarily rename to something else or temporarily move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder "%cd%". Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+pause > nul 2>&1
+goto "ClearAutoMount"
+
+:"Error4"
+del "diskpart.txt" /f /q > nul 2>&1
+echo There has been an error! Press any key to again.
+pause > nul 2>&1
+goto "ClearAutoMount"
+
+:"DiskPartDone"
+echo.
+echo You can now rename or move back the file back to "diskpart.txt".
+goto "Start"
+
+:"5"
+echo.
+set Sure=
 set /p Sure="Are you sure you want to reset OpenSSH client keys for user %USERNAME%? (Yes/No) "
 if /i "%Sure%"=="Yes" goto "Reset"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
-goto "4"
+goto "5"
 
 :"Reset"
 if not exist "%USERPROFILE%\.ssh" goto "NotExist"
 echo.
 echo Resetting OpenSSH client keys for user %USERNAME%.
 rd "%USERPROFILE%\.ssh" /s /q > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error4"
+if not "%errorlevel%"=="0" goto "Error5"
 echo OpenSSH client keys reset for user %USERNAME%.
 goto "Start"
 
@@ -266,32 +312,32 @@ echo.
 echo OpenSSH client keys for user %USERNAME% already in reset state.
 goto "Start"
 
-:"Error4"
+:"Error5"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
 goto "Reset"
 
-:"5"
+:"6"
 echo.
 set Sure=
 set /p Sure="Are you sure you want to clear Run history for user %USERNAME%? (Yes/No) "
-if /i "%Sure%"=="Yes" goto "Clear"
+if /i "%Sure%"=="Yes" goto "ClearRun"
 if /i "%Sure%"=="No" goto "Start"
 echo Invalid syntax!
-goto "5"
+goto "6"
 
-:"Clear"
+:"ClearRun"
 echo.
 echo Clearing Run history for user %USERNAME%.
 "%windir%\System32\reg.exe" delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f > nul 2>&1
-if not "%errorlevel%"=="0" goto "Error5"
+if not "%errorlevel%"=="0" goto "Error6"
 echo Run history cleared for user %USERNAME%.
 goto "Start"
 
-:"Error5"
+:"Error6"
 echo There has been an error! Press any key to again.
 pause > nul 2>&1
-goto "Clear"
+goto "ClearRun"
 
 :"Close"
 endlocal
