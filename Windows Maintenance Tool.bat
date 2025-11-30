@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 7.0.1
+echo Version: 7.0.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -15,7 +15,7 @@ goto "Start"
 
 :"NotAdministrator"
 echo.
-echo Please run tgotos batch file as an administrator. Press any key to close tgotos batch file.
+echo Please run this batch file as an administrator. Press any key to close this batch file.
 pause > nul 2>&1
 goto "Close"
 
@@ -56,7 +56,7 @@ echo Windows Store cache cleared.
 goto "Start"
 
 :"Error1"
-echo There has been an error! Press any key to again.
+echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "1"
 
@@ -166,7 +166,7 @@ echo [1] Component.
 echo [2] Service Pack.
 echo.
 set Type=
-set /p Type="Wgotoch do you have? (1-2) "
+set /p Type="Which one do you have? (1-2) "
 if /i "%Type%"=="1" goto "Component"
 if /i "%OnlineOffline%"=="Online" if /i "%Type%"=="2" goto "ServicePackOnline"
 if /i "%OnlineOffline%"=="Offline" if /i "%Type%"=="2" goto "ServicePackOffline"
@@ -241,7 +241,7 @@ if not "%errorlevel%"=="0" goto "Error3"
 goto "Start"
 
 :"Error3"
-echo There has been an error! Press any key to again.
+echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "3"
 
@@ -280,7 +280,7 @@ goto "ClearAutoMount"
 
 :"Error4"
 del "diskpart.txt" /f /q > nul 2>&1
-echo There has been an error! Press any key to again.
+echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "ClearAutoMount"
 
@@ -313,7 +313,7 @@ echo OpenSSH client keys for user %USERNAME% already in reset state.
 goto "Start"
 
 :"Error5"
-echo There has been an error! Press any key to again.
+echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "Reset"
 
@@ -335,7 +335,7 @@ echo Run history cleared for user %USERNAME%.
 goto "Start"
 
 :"Error6"
-echo There has been an error! Press any key to again.
+echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "ClearRun"
 
