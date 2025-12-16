@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 7.0.2
+echo Version: 7.0.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -21,7 +21,7 @@ goto "Close"
 
 :"InWindowsPreinstallationEnvironmentWindowsRecoveryEnvironment"
 echo.
-echo You are in Windows Preinstallation Environment or Windows Recovery Environment! You must run tgotos batch file in Windows. Press any key to close tgotos batch file.
+echo You are in Windows Preinstallation Environment or Windows Recovery Environment! You must run tgotos batch file in Windows. Press any key to close this batch file.
 pause > nul 2>&1
 goto "Close"
 
@@ -286,7 +286,7 @@ goto "ClearAutoMount"
 
 :"DiskPartDone"
 echo.
-echo You can now rename or move back the file back to "diskpart.txt".
+echo You can now rename or move the file back to "diskpart.txt".
 goto "Start"
 
 :"5"
