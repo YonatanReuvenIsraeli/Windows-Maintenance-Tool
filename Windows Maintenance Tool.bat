@@ -2,7 +2,7 @@
 title Windows Maintenance Tool
 setlocal
 echo Program Name: Windows Maintenance Tool
-echo Version: 7.0.4
+echo Version: 7.0.5
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -122,11 +122,11 @@ echo "%Installation%" does not exist!
 goto "Installation"
 
 :"InstallationIsOnline"
-echo "%Installation%" is an online Windows installation!
+echo "%Installation%" is an online Windows installation! Please try again.
 goto "2"
 
 :"InstallationNotWindows"
-echo "%Installation%" is not an offline Windows installation!
+echo "%Installation%" is not an offline Windows installation! Please try again.
 goto "Installation"
 
 :"Online"
